@@ -16,13 +16,19 @@ public abstract class GameRendererMixin {
     private void vortexopt$onRenderHead(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
         FrameState.update(MinecraftClient.getInstance(), tickDelta);
         AdaptiveTuner.onFrame(tickDelta);
-        try { org.defaultmod.runtime.ChunkBudget.onFrame(); } catch (Throwable ignored) {}
+        try {
+            org.defaultmod.runtime.ChunkBudget.onFrame();
+            org.defaultmod.runtime.PerformanceGovernor.onFrame(MinecraftClient.getInstance());
+        } catch (Throwable ignored) {}
     }
 
     @Inject(method = "render(FZ)V", at = @At("HEAD"), require = 0)
     private void vortexopt$onRenderHeadAlt(float tickDelta, boolean tick, CallbackInfo ci) {
         FrameState.update(MinecraftClient.getInstance(), tickDelta);
         AdaptiveTuner.onFrame(tickDelta);
-        try { org.defaultmod.runtime.ChunkBudget.onFrame(); } catch (Throwable ignored) {}
+        try {
+            org.defaultmod.runtime.ChunkBudget.onFrame();
+            org.defaultmod.runtime.PerformanceGovernor.onFrame(MinecraftClient.getInstance());
+        } catch (Throwable ignored) {}
     }
 }
