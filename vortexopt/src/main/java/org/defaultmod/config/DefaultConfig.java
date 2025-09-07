@@ -77,6 +77,10 @@ public final class DefaultConfig {
     public static double clientEntityFarSkipChance = 0.4;
     public static double clientEntityFarDistance = 64.0;
 
+    // Client chunk rebuild budgeting
+    public static boolean clientChunkRebuildBudgetEnabled = true;
+    public static int clientChunkRebuildsPerFrame = 6;
+
     private DefaultConfig() {}
 
     public static void load() {
@@ -208,6 +212,16 @@ public final class DefaultConfig {
             props.setProperty("client.entity_tick.throttle.offscreen_skip_chance", String.valueOf(clientEntityOffscreenSkipChance));
             props.setProperty("client.entity_tick.throttle.far_skip_chance", String.valueOf(clientEntityFarSkipChance));
             props.setProperty("client.entity_tick.throttle.far_distance", String.valueOf(clientEntityFarDistance));
+
+            // Client chunk rebuild budgeting
+            props.setProperty("client.chunk_rebuild.budget.enabled", String.valueOf(clientChunkRebuildBudgetEnabled));
+            props.setProperty("client.chunk_rebuild.budget.per_frame", String.valueOf(clientChunkRebuildsPerFrame));
+
+            // Client chunk rebuild budgeting
+            clientChunkRebuildBudgetEnabled = Boolean.parseBoolean(props.getProperty("client.chunk_rebuild.budget.enabled", String.valueOf(clientChunkRebuildBudgetEnabled)));
+            clientChunkRebuildsPerFrame = parseInt(props.getProperty("client.chunk_rebuild.budget.per_frame"), clientChunkRebuildsPerFrame);
+            props.setProperty("client.chunk_rebuild.budget.enabled", String.valueOf(clientChunkRebuildBudgetEnabled));
+            props.setProperty("client.chunk_rebuild.budget.per_frame", String.valueOf(clientChunkRebuildsPerFrame));
             try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
                 props.store(fos, "DefaultMod configuration");
             }

@@ -10,7 +10,8 @@
     "GameRendererMixin",
     "VideoOptionsScreenMixin",
     "InGameHudMixin",
-    "client.entity.LivingEntityClientTickMixin"
+    "client.entity.LivingEntityClientTickMixin",
+    "chunk.ChunkBuilderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
