@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.defaultmod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ParticleManagerMixin",
+    "MathHelperMixin",
+    "entity.EntityInsideWallMixin",
+    "GameRendererMixin",
+    "VideoOptionsScreenMixin",
+    "InGameHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

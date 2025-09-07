@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+    "id": "default",
+    "version": "${version}",
+    "name": "Default",
+    "description": "Experimental performance optimizer: particle budgeting and client micro-tweaks.",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+    "icon": "assets/default/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "org.defaultmod.DefaultMod"
+        ],
+        "client": [
+            "org.defaultmod.DefaultModClient"
+        ]
+    },
+    "mixins": [
+        {
+            "config": "default.client.mixins.json",
+            "environment": "client"
+        },
+        {
+            "config": "default.server.mixins.json",
+            "environment": "server"
+        }
+    ],
+	"depends": {
+        "fabricloader": ">=0.16.14",
+        "minecraft": "~1.21.8",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}

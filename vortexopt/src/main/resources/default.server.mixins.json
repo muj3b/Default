@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.defaultmod.mixin.server",
+  "compatibilityLevel": "JAVA_21",
+  "server": [
+    "MinecraftServerMixin",
+    "ServerWorldParticlesMixin",
+    "LivingEntitySprintingParticlesMixin",
+    "ai.BrainTickMixin",
+    "pathing.MobNavigationMixin",
+    "world.ServerWorldRandomTicksMixin",
+    "entity.ItemEntityMergeMixin",
+    "entity.ProjectileEntityMixin",
+    "block.HopperBlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
