@@ -24,6 +24,7 @@ public final class DefaultKeybinds {
     private static KeyBinding reloadConfig;
     private static KeyBinding scaleUp;
     private static KeyBinding scaleDown;
+    private static KeyBinding presetCycle;
     private DefaultKeybinds() {}
 
     public static void init() {
@@ -129,6 +130,12 @@ public final class DefaultKeybinds {
                 GLFW.GLFW_KEY_PAGE_DOWN,
                 "category.default"
         ));
+        presetCycle = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.preset_cycle",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_P,
+                "category.default"
+        ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (toggleHud.wasPressed()) {
                 org.defaultmod.client.ui.DefaultHud.toggle();
@@ -194,6 +201,23 @@ public final class DefaultKeybinds {
             while (scaleDown.wasPressed()) {
                 org.defaultmod.client.ui.DefaultHud.adjustGraphScale(-1);
             }
+            while (presetCycle.wasPressed()) {
+                cyclePreset();
+            }
         });
+    }
+
+    private static int presetIndex = 0;
+    private static void cyclePreset() {
+        var kinds = org.defaultmod.runtime.Presets.Kind.values();
+        presetIndex = (presetIndex + 1) % kinds.length;
+        var kind = kinds[presetIndex];
+        org.defaultmod.runtime.Presets.apply(kind);
+        try {
+            var mc = net.minecraft.client.MinecraftClient.getInstance();
+            if (mc != null) {
+                net.minecraft.client.toast.SystemToast.add(mc.getToastManager(), net.minecraft.client.toast.SystemToast.Type.NARRATOR_TOGGLE, net.minecraft.text.Text.literal("Default: Preset applied"), net.minecraft.text.Text.literal(kind.name()));
+            }
+        } catch (Throwable ignored) {}
     }
 }
