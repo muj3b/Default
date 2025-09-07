@@ -172,9 +172,21 @@ public final class DefaultKeybinds {
             }
             while (saveConfig.wasPressed()) {
                 org.defaultmod.config.DefaultConfig.save();
+                try {
+                    var mc = net.minecraft.client.MinecraftClient.getInstance();
+                    if (mc != null) {
+                        net.minecraft.client.toast.SystemToast.add(mc.getToastManager(), net.minecraft.client.toast.SystemToast.Type.NARRATOR_TOGGLE, net.minecraft.text.Text.literal("Default: Saved config"), net.minecraft.text.Text.literal("default.properties written"));
+                    }
+                } catch (Throwable ignored) {}
             }
             while (reloadConfig.wasPressed()) {
                 org.defaultmod.config.DefaultConfig.load();
+                try {
+                    var mc = net.minecraft.client.MinecraftClient.getInstance();
+                    if (mc != null) {
+                        net.minecraft.client.toast.SystemToast.add(mc.getToastManager(), net.minecraft.client.toast.SystemToast.Type.NARRATOR_TOGGLE, net.minecraft.text.Text.literal("Default: Reloaded config"), net.minecraft.text.Text.literal("default.properties loaded"));
+                    }
+                } catch (Throwable ignored) {}
             }
             while (scaleUp.wasPressed()) {
                 org.defaultmod.client.ui.DefaultHud.adjustGraphScale(1);

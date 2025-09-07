@@ -47,7 +47,7 @@ public final class DefaultHud {
                 int col = (i == editIndex ? 0xFFFFA0 : 0xFFFFFF);
                 ctx.drawTextWithShadow(mc.textRenderer, lines[i], ex, ey + i*12, col);
             }
-            ctx.drawTextWithShadow(mc.textRenderer, "Edit: Arrow Up/Down select, Left/Right adjust, F6 exit", ex, ey + h2 - 12, 0xA0FFC0);
+            ctx.drawTextWithShadow(mc.textRenderer, "Edit: Up/Down select, Left/Right adjust, F6 exit, F5 save, F10 reload", ex, ey + h2 - 12, 0xA0FFC0);
         }
     }
 
