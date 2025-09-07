@@ -104,4 +104,14 @@ public final class DefaultHud {
     private static double clampDouble(double v, double lo, double hi) { return Math.max(lo, Math.min(hi, v)); }
     private static double clamp01(double v) { return clampDouble(v, 0.0, 1.0); }
     private static int clampInt(int v, int lo, int hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    public static void adjustGraphScale(int dir) {
+        if (dir > 0) {
+            graphScaleFpsMax = Math.min(480f, graphScaleFpsMax + 20f);
+            graphScaleTpsMax = Math.min(80f, graphScaleTpsMax + 2f);
+        } else if (dir < 0) {
+            graphScaleFpsMax = Math.max(60f, graphScaleFpsMax - 20f);
+            graphScaleTpsMax = Math.max(20f, graphScaleTpsMax - 2f);
+        }
+    }
 }

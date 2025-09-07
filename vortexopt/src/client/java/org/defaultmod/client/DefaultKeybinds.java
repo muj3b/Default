@@ -20,6 +20,10 @@ public final class DefaultKeybinds {
     private static KeyBinding editDown;
     private static KeyBinding editLeft;
     private static KeyBinding editRight;
+    private static KeyBinding saveConfig;
+    private static KeyBinding reloadConfig;
+    private static KeyBinding scaleUp;
+    private static KeyBinding scaleDown;
     private DefaultKeybinds() {}
 
     public static void init() {
@@ -101,6 +105,30 @@ public final class DefaultKeybinds {
                 GLFW.GLFW_KEY_RIGHT,
                 "category.default"
         ));
+        saveConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.config_save",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F5,
+                "category.default"
+        ));
+        reloadConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.config_reload",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F10,
+                "category.default"
+        ));
+        scaleUp = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.graph_scale_up",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_PAGE_UP,
+                "category.default"
+        ));
+        scaleDown = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.graph_scale_down",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_PAGE_DOWN,
+                "category.default"
+        ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (toggleHud.wasPressed()) {
                 org.defaultmod.client.ui.DefaultHud.toggle();
@@ -141,6 +169,18 @@ public final class DefaultKeybinds {
                 while (editDown.wasPressed()) org.defaultmod.client.ui.DefaultHud.editNext(1);
                 while (editLeft.wasPressed()) org.defaultmod.client.ui.DefaultHud.editAdjust(-1);
                 while (editRight.wasPressed()) org.defaultmod.client.ui.DefaultHud.editAdjust(1);
+            }
+            while (saveConfig.wasPressed()) {
+                org.defaultmod.config.DefaultConfig.save();
+            }
+            while (reloadConfig.wasPressed()) {
+                org.defaultmod.config.DefaultConfig.load();
+            }
+            while (scaleUp.wasPressed()) {
+                org.defaultmod.client.ui.DefaultHud.adjustGraphScale(1);
+            }
+            while (scaleDown.wasPressed()) {
+                org.defaultmod.client.ui.DefaultHud.adjustGraphScale(-1);
             }
         });
     }
