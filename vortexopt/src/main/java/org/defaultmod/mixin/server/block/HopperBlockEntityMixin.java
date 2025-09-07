@@ -15,7 +15,7 @@ import org.defaultmod.config.DefaultConfig;
 import java.util.List;
 
 @Mixin(HopperBlockEntity.class)
-public abstract class HopperBlockEntityMixin {
+public abstract class HopperBlockEntityMixin implements org.defaultmod.mixin.server.block.HopperDuck {
     @Unique private int vortexopt$skipCheckCooldown = 0;
 
     @Inject(method = "serverTick(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;Lnet/minecraft/block/entity/HopperBlockEntity;)V", at = @At("HEAD"), cancellable = true, require = 0)
@@ -41,5 +41,9 @@ public abstract class HopperBlockEntityMixin {
             ci.cancel();
         }
     }
-}
 
+    @Override
+    public void default$wake() {
+        this.vortexopt$skipCheckCooldown = 0;
+    }
+}

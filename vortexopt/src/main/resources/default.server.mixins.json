@@ -8,11 +8,14 @@
     "ServerWorldParticlesMixin",
     "LivingEntitySprintingParticlesMixin",
     "ai.BrainTickMixin",
+    "poi.PointOfInterestStorageMixin",
     "pathing.MobNavigationMixin",
     "world.ServerWorldRandomTicksMixin",
     "entity.ItemEntityMergeMixin",
     "entity.ProjectileEntityMixin",
-    "block.HopperBlockEntityMixin"
+    "entity.EntityCollisionMixin",
+    "block.HopperBlockEntityMixin",
+    "block.BlockEntityMarkDirtyMixin"
   ],
   "injectors": {
     "defaultRequire": 0
