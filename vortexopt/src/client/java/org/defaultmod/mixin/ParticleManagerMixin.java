@@ -63,6 +63,18 @@ public class ParticleManagerMixin {
         if (dist2 > org.defaultmod.config.DefaultConfig.particleMaxDistance * org.defaultmod.config.DefaultConfig.particleMaxDistance) {
             p += org.defaultmod.config.DefaultConfig.particleDistanceBonusDrop;
         }
+        // Dimension bias (client)
+        if (org.defaultmod.config.DefaultConfig.clientParticlesDimensionBonuses) {
+            try {
+                net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
+                if (mc != null && mc.world != null) {
+                    String dim = mc.world.getRegistryKey().getValue().getPath();
+                    if ("overworld".equals(dim)) p += org.defaultmod.config.DefaultConfig.clientParticlesDropBonusOverworld;
+                    else if ("the_nether".equals(dim) || "nether".equals(dim)) p += org.defaultmod.config.DefaultConfig.clientParticlesDropBonusNether;
+                    else if ("the_end".equals(dim) || "end".equals(dim)) p += org.defaultmod.config.DefaultConfig.clientParticlesDropBonusEnd;
+                }
+            } catch (Throwable ignored) {}
+        }
         return Math.random() < Math.min(1.0, p);
     }
 }

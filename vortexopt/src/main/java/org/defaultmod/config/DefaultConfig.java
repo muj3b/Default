@@ -65,6 +65,18 @@ public final class DefaultConfig {
     public static boolean serverHopperIdleSkipEnabled = true;
     public static int serverHopperIdleCheckIntervalTicks = 8;
 
+    // Client-side dimension particle bonuses
+    public static boolean clientParticlesDimensionBonuses = true;
+    public static double clientParticlesDropBonusOverworld = 0.0;
+    public static double clientParticlesDropBonusNether = 0.05;
+    public static double clientParticlesDropBonusEnd = 0.03;
+
+    // Client-side offscreen entity tick throttling (visual-only)
+    public static boolean clientEntityTickThrottleEnabled = true;
+    public static double clientEntityOffscreenSkipChance = 0.2;
+    public static double clientEntityFarSkipChance = 0.4;
+    public static double clientEntityFarDistance = 64.0;
+
     private DefaultConfig() {}
 
     public static void load() {
@@ -176,6 +188,26 @@ public final class DefaultConfig {
             serverHopperIdleCheckIntervalTicks = parseInt(props.getProperty("server.hopper.idle_skip.interval_ticks"), serverHopperIdleCheckIntervalTicks);
             props.setProperty("server.hopper.idle_skip.enabled", String.valueOf(serverHopperIdleSkipEnabled));
             props.setProperty("server.hopper.idle_skip.interval_ticks", String.valueOf(serverHopperIdleCheckIntervalTicks));
+
+            // Client dimension particle bonuses
+            clientParticlesDimensionBonuses = Boolean.parseBoolean(props.getProperty("client.particles.dimension_bonuses.enabled", String.valueOf(clientParticlesDimensionBonuses)));
+            clientParticlesDropBonusOverworld = parseDouble(props.getProperty("client.particles.dimension_bonuses.overworld"), clientParticlesDropBonusOverworld);
+            clientParticlesDropBonusNether = parseDouble(props.getProperty("client.particles.dimension_bonuses.nether"), clientParticlesDropBonusNether);
+            clientParticlesDropBonusEnd = parseDouble(props.getProperty("client.particles.dimension_bonuses.end"), clientParticlesDropBonusEnd);
+            props.setProperty("client.particles.dimension_bonuses.enabled", String.valueOf(clientParticlesDimensionBonuses));
+            props.setProperty("client.particles.dimension_bonuses.overworld", String.valueOf(clientParticlesDropBonusOverworld));
+            props.setProperty("client.particles.dimension_bonuses.nether", String.valueOf(clientParticlesDropBonusNether));
+            props.setProperty("client.particles.dimension_bonuses.end", String.valueOf(clientParticlesDropBonusEnd));
+
+            // Client entity tick throttle
+            clientEntityTickThrottleEnabled = Boolean.parseBoolean(props.getProperty("client.entity_tick.throttle.enabled", String.valueOf(clientEntityTickThrottleEnabled)));
+            clientEntityOffscreenSkipChance = parseDouble(props.getProperty("client.entity_tick.throttle.offscreen_skip_chance"), clientEntityOffscreenSkipChance);
+            clientEntityFarSkipChance = parseDouble(props.getProperty("client.entity_tick.throttle.far_skip_chance"), clientEntityFarSkipChance);
+            clientEntityFarDistance = parseDouble(props.getProperty("client.entity_tick.throttle.far_distance"), clientEntityFarDistance);
+            props.setProperty("client.entity_tick.throttle.enabled", String.valueOf(clientEntityTickThrottleEnabled));
+            props.setProperty("client.entity_tick.throttle.offscreen_skip_chance", String.valueOf(clientEntityOffscreenSkipChance));
+            props.setProperty("client.entity_tick.throttle.far_skip_chance", String.valueOf(clientEntityFarSkipChance));
+            props.setProperty("client.entity_tick.throttle.far_distance", String.valueOf(clientEntityFarDistance));
             try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
                 props.store(fos, "DefaultMod configuration");
             }
@@ -238,6 +270,18 @@ public final class DefaultConfig {
 
             props.setProperty("server.hopper.idle_skip.enabled", String.valueOf(serverHopperIdleSkipEnabled));
             props.setProperty("server.hopper.idle_skip.interval_ticks", String.valueOf(serverHopperIdleCheckIntervalTicks));
+
+            // Client dimension particle bonuses
+            props.setProperty("client.particles.dimension_bonuses.enabled", String.valueOf(clientParticlesDimensionBonuses));
+            props.setProperty("client.particles.dimension_bonuses.overworld", String.valueOf(clientParticlesDropBonusOverworld));
+            props.setProperty("client.particles.dimension_bonuses.nether", String.valueOf(clientParticlesDropBonusNether));
+            props.setProperty("client.particles.dimension_bonuses.end", String.valueOf(clientParticlesDropBonusEnd));
+
+            // Client entity tick throttle
+            props.setProperty("client.entity_tick.throttle.enabled", String.valueOf(clientEntityTickThrottleEnabled));
+            props.setProperty("client.entity_tick.throttle.offscreen_skip_chance", String.valueOf(clientEntityOffscreenSkipChance));
+            props.setProperty("client.entity_tick.throttle.far_skip_chance", String.valueOf(clientEntityFarSkipChance));
+            props.setProperty("client.entity_tick.throttle.far_distance", String.valueOf(clientEntityFarDistance));
 
             try (FileOutputStream fos = new FileOutputStream(file.toFile())) {
                 props.store(fos, "DefaultMod configuration");

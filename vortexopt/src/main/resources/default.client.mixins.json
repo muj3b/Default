@@ -9,7 +9,8 @@
     "entity.EntityInsideWallMixin",
     "GameRendererMixin",
     "VideoOptionsScreenMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "client.entity.LivingEntityClientTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
