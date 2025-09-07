@@ -13,7 +13,7 @@ import org.defaultmod.runtime.AdaptiveTuner;
 
 @Mixin(ParticleManager.class)
 public class ParticleManagerMixin {
-    @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", at = @At("HEAD"), cancellable = true, require = 0)
     private void vortexopt$maybeDrop(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfo ci) {
         org.defaultmod.runtime.Metrics.clientParticlesConsidered.incrementAndGet();
         ParticleBudget.onNewParticle();
@@ -23,7 +23,7 @@ public class ParticleManagerMixin {
         }
     }
 
-    @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;ZDDDDDD)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;ZDDDDDD)V", at = @At("HEAD"), cancellable = true, require = 0)
     private void vortexopt$maybeDropForced(ParticleEffect parameters, boolean alwaysRender, double x, double y, double z, double velocityX, double velocityY, double velocityZ, CallbackInfo ci) {
         org.defaultmod.runtime.Metrics.clientParticlesConsidered.incrementAndGet();
         ParticleBudget.onNewParticle();
@@ -33,7 +33,7 @@ public class ParticleManagerMixin {
         }
     }
 
-    @Inject(method = "addParticle(Lnet/minecraft/client/particle/Particle;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addParticle(Lnet/minecraft/client/particle/Particle;)V", at = @At("HEAD"), cancellable = true, require = 0)
     private void vortexopt$maybeDropDirect(net.minecraft.client.particle.Particle particle, CallbackInfo ci) {
         org.defaultmod.runtime.Metrics.clientParticlesConsidered.incrementAndGet();
         ParticleBudget.onNewParticle();
