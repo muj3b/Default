@@ -12,6 +12,7 @@
     "pathing.MobNavigationMixin",
     "world.ServerWorldRandomTicksMixin",
     "entity.ItemEntityMergeMixin",
+    "entity.ItemEntityWakeHopperMixin",
     "entity.ProjectileEntityMixin",
     "entity.EntityCollisionMixin",
     "block.HopperBlockEntityMixin",

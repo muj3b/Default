@@ -5,6 +5,9 @@ import net.minecraft.client.gui.DrawContext;
 
 public final class DefaultHud {
     private static boolean enabled = false;
+    private static boolean graphs = true;
+    private static float graphScaleFpsMax = 240f;
+    private static float graphScaleTpsMax = 40f;
     private DefaultHud() {}
     public static void toggle() { enabled = !enabled; }
     public static boolean isEnabled() { return enabled; }
@@ -28,9 +31,10 @@ public final class DefaultHud {
         ctx.drawTextWithShadow(mc.textRenderer, l2, x, y+12, 0xA0FFC0);
         ctx.drawTextWithShadow(mc.textRenderer, l3, x, y+24, 0xC0E0FF);
 
-        // Graphs
-        drawGraph(ctx, x+w+8, y, 120, 32, org.defaultmod.runtime.PerfHistory.getFps(), 0xFF4CAF50, 15f, 240f, "FPS");
-        drawGraph(ctx, x+w+8, y+36, 120, 32, org.defaultmod.runtime.PerfHistory.getTps(), 0xFF2196F3, 0f, 40f, "TPS");
+        if (graphs) {
+            drawGraph(ctx, x+w+8, y, 120, 32, org.defaultmod.runtime.PerfHistory.getFps(), 0xFF4CAF50, 15f, graphScaleFpsMax, "FPS");
+            drawGraph(ctx, x+w+8, y+36, 120, 32, org.defaultmod.runtime.PerfHistory.getTps(), 0xFF2196F3, 0f, graphScaleTpsMax, "TPS");
+        }
     }
 
     private static void drawGraph(DrawContext ctx, int gx, int gy, int gw, int gh, float[] series, int color, float min, float max, String label) {
