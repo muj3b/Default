@@ -18,6 +18,7 @@ public final class AdaptiveTuner {
         double dt = (now - prev) / 1_000_000_000.0;
         if (dt <= 0) return;
         double fps = 1.0 / dt;
+        org.defaultmod.runtime.PerfHistory.pushFps(fps);
         double err = DefaultConfig.adaptiveTargetFps - fps; // positive if below target
 
         // Normalize error and apply a simple I-controller style adjustment

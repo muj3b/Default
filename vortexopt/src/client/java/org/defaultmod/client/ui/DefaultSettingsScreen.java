@@ -57,6 +57,20 @@ public class DefaultSettingsScreen extends Screen {
         }));
         y += 24;
 
+        // More particle heuristics
+        this.addDrawableChild(new SimpleSlider(x, y, w, h, Text.literal("Max Particle Distance"), 16, 256, (int) DefaultConfig.particleMaxDistance, v -> {
+            DefaultConfig.particleMaxDistance = v;
+        }));
+        y += 24;
+        this.addDrawableChild(new SimpleSlider(x, y, w, h, Text.literal("Offscreen Bonus Drop (% )"), 0, 100, (int) (DefaultConfig.particleOffscreenBonusDrop * 100), v -> {
+            DefaultConfig.particleOffscreenBonusDrop = v / 100.0;
+        }));
+        y += 24;
+        this.addDrawableChild(new SimpleSlider(x, y, w, h, Text.literal("Distance Bonus Drop (% )"), 0, 100, (int) (DefaultConfig.particleDistanceBonusDrop * 100), v -> {
+            DefaultConfig.particleDistanceBonusDrop = v / 100.0;
+        }));
+        y += 24;
+
         this.addDrawableChild(ButtonWidget.builder(Text.literal("Done"), b -> {
             DefaultConfig.save();
             this.client.setScreen(parent);

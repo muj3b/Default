@@ -18,6 +18,10 @@ public final class ServerAdaptiveTuner {
         double dt = (now - prev) / 1_000_000_000.0;
         if (dt <= 0) return;
         double tps = 1.0 / dt;
+        // server TPS history is used client-side only when in singleplayer; still fine to record
+        try {
+            org.defaultmod.runtime.PerfHistory.pushTps(tps);
+        } catch (Throwable ignored) {}
         double err = DefaultConfig.serverAdaptiveTargetTps - tps; // positive if below target
         double norm = err / Math.max(1.0, DefaultConfig.serverAdaptiveTargetTps);
         double range = Math.max(0.0, DefaultConfig.serverAdaptiveMaxExtraDrop - DefaultConfig.serverAdaptiveMinExtraDrop);

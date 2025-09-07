@@ -27,5 +27,28 @@ public final class DefaultHud {
         ctx.drawTextWithShadow(mc.textRenderer, l1, x, y, 0xFFFFFF);
         ctx.drawTextWithShadow(mc.textRenderer, l2, x, y+12, 0xA0FFC0);
         ctx.drawTextWithShadow(mc.textRenderer, l3, x, y+24, 0xC0E0FF);
+
+        // Graphs
+        drawGraph(ctx, x+w+8, y, 120, 32, org.defaultmod.runtime.PerfHistory.getFps(), 0xFF4CAF50, 15f, 240f, "FPS");
+        drawGraph(ctx, x+w+8, y+36, 120, 32, org.defaultmod.runtime.PerfHistory.getTps(), 0xFF2196F3, 0f, 40f, "TPS");
+    }
+
+    private static void drawGraph(DrawContext ctx, int gx, int gy, int gw, int gh, float[] series, int color, float min, float max, String label) {
+        if (series == null) return;
+        ctx.fill(gx-2, gy-2, gx+gw+2, gy+gh+2, 0x44000000);
+        int n = series.length;
+        for (int i = 0; i < gw; i++) {
+            int idx = (n - 1 - i) % n; if (idx < 0) idx += n;
+            float v = series[idx];
+            float t = (Math.max(min, Math.min(max, v)) - min) / (max - min + 1e-6f);
+            int barH = (int) (t * gh);
+            int x = gx + gw - 1 - i;
+            ctx.fill(x, gy + gh - barH, x+1, gy + gh, color);
+        }
+        // label
+        var mc = MinecraftClient.getInstance();
+        if (mc != null && mc.textRenderer != null) {
+            ctx.drawTextWithShadow(mc.textRenderer, label, gx, gy - 10, 0xFFFFFF);
+        }
     }
 }
