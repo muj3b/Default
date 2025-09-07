@@ -8,6 +8,8 @@ public final class DefaultHud {
     private static boolean graphs = true;
     private static float graphScaleFpsMax = 240f;
     private static float graphScaleTpsMax = 40f;
+    private static boolean editMode = false;
+    private static int editIndex = 0;
     private DefaultHud() {}
     public static void toggle() { enabled = !enabled; }
     public static boolean isEnabled() { return enabled; }
@@ -35,6 +37,18 @@ public final class DefaultHud {
             drawGraph(ctx, x+w+8, y, 120, 32, org.defaultmod.runtime.PerfHistory.getFps(), 0xFF4CAF50, 15f, graphScaleFpsMax, "FPS");
             drawGraph(ctx, x+w+8, y+36, 120, 32, org.defaultmod.runtime.PerfHistory.getTps(), 0xFF2196F3, 0f, graphScaleTpsMax, "TPS");
         }
+
+        if (editMode) {
+            int ex = x; int ey = y + 72;
+            int w2 = 260; int h2 = 64;
+            ctx.fill(ex-4, ey-4, ex+w2, ey+h2, 0x77000000);
+            String[] lines = currentEditLines();
+            for (int i = 0; i < lines.length; i++) {
+                int col = (i == editIndex ? 0xFFFFA0 : 0xFFFFFF);
+                ctx.drawTextWithShadow(mc.textRenderer, lines[i], ex, ey + i*12, col);
+            }
+            ctx.drawTextWithShadow(mc.textRenderer, "Edit: Arrow Up/Down select, Left/Right adjust, F6 exit", ex, ey + h2 - 12, 0xA0FFC0);
+        }
     }
 
     private static void drawGraph(DrawContext ctx, int gx, int gy, int gw, int gh, float[] series, int color, float min, float max, String label) {
@@ -55,4 +69,39 @@ public final class DefaultHud {
             ctx.drawTextWithShadow(mc.textRenderer, label, gx, gy - 10, 0xFFFFFF);
         }
     }
+
+    // Edit controls
+    public static void toggleEdit() { editMode = !editMode; }
+    public static boolean isEditMode() { return editMode; }
+    public static void editNext(int dir) {
+        if (!editMode) return;
+        int count = currentEditLines().length;
+        editIndex = Math.floorMod(editIndex + dir, count);
+    }
+    public static void editAdjust(int dir) {
+        if (!editMode) return;
+        switch (editIndex) {
+            case 0 -> org.defaultmod.config.DefaultConfig.dropFraction = clamp01(org.defaultmod.config.DefaultConfig.dropFraction + dir*0.05);
+            case 1 -> org.defaultmod.config.DefaultConfig.maxNewParticlesPerSecond = clampInt(org.defaultmod.config.DefaultConfig.maxNewParticlesPerSecond + dir*100, 0, 10000);
+            case 2 -> org.defaultmod.config.DefaultConfig.particleMaxDistance = clampDouble(org.defaultmod.config.DefaultConfig.particleMaxDistance + dir*4, 8, 512);
+            case 3 -> org.defaultmod.config.DefaultConfig.particleOffscreenBonusDrop = clamp01(org.defaultmod.config.DefaultConfig.particleOffscreenBonusDrop + dir*0.05);
+            case 4 -> org.defaultmod.config.DefaultConfig.particleDistanceBonusDrop = clamp01(org.defaultmod.config.DefaultConfig.particleDistanceBonusDrop + dir*0.05);
+            case 5 -> org.defaultmod.config.DefaultConfig.adaptiveEnabled = !org.defaultmod.config.DefaultConfig.adaptiveEnabled;
+        }
+    }
+
+    private static String[] currentEditLines() {
+        return new String[] {
+            String.format("Drop fraction: %.2f", org.defaultmod.config.DefaultConfig.dropFraction),
+            String.format("Particle budget: %d/s", org.defaultmod.config.DefaultConfig.maxNewParticlesPerSecond),
+            String.format("Max particle distance: %.1f", org.defaultmod.config.DefaultConfig.particleMaxDistance),
+            String.format("Offscreen bonus drop: %.2f", org.defaultmod.config.DefaultConfig.particleOffscreenBonusDrop),
+            String.format("Distance bonus drop: %.2f", org.defaultmod.config.DefaultConfig.particleDistanceBonusDrop),
+            String.format("Adaptive FPS: %s", org.defaultmod.config.DefaultConfig.adaptiveEnabled ? "On" : "Off")
+        };
+    }
+
+    private static double clampDouble(double v, double lo, double hi) { return Math.max(lo, Math.min(hi, v)); }
+    private static double clamp01(double v) { return clampDouble(v, 0.0, 1.0); }
+    private static int clampInt(int v, int lo, int hi) { return Math.max(lo, Math.min(hi, v)); }
 }

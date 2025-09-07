@@ -16,7 +16,8 @@
     "entity.ProjectileEntityMixin",
     "entity.EntityCollisionMixin",
     "block.HopperBlockEntityMixin",
-    "block.BlockEntityMarkDirtyMixin"
+    "block.BlockEntityMarkDirtyMixin",
+    "block.BlockStateChangeMixin"
   ],
   "injectors": {
     "defaultRequire": 0

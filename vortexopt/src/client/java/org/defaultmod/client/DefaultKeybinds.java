@@ -15,6 +15,11 @@ public final class DefaultKeybinds {
     private static KeyBinding decBudget;
     private static KeyBinding toggleAdaptive;
     private static KeyBinding toggleMathLut;
+    private static KeyBinding editToggle;
+    private static KeyBinding editUp;
+    private static KeyBinding editDown;
+    private static KeyBinding editLeft;
+    private static KeyBinding editRight;
     private DefaultKeybinds() {}
 
     public static void init() {
@@ -66,6 +71,36 @@ public final class DefaultKeybinds {
                 GLFW.GLFW_KEY_F7,
                 "category.default"
         ));
+        editToggle = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.edit_toggle",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F6,
+                "category.default"
+        ));
+        editUp = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.edit_up",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_UP,
+                "category.default"
+        ));
+        editDown = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.edit_down",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_DOWN,
+                "category.default"
+        ));
+        editLeft = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.edit_left",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT,
+                "category.default"
+        ));
+        editRight = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.default.edit_right",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_RIGHT,
+                "category.default"
+        ));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (toggleHud.wasPressed()) {
                 org.defaultmod.client.ui.DefaultHud.toggle();
@@ -97,6 +132,15 @@ public final class DefaultKeybinds {
             }
             while (toggleMathLut.wasPressed()) {
                 org.defaultmod.config.DefaultConfig.mathLutEnabled = !org.defaultmod.config.DefaultConfig.mathLutEnabled;
+            }
+            while (editToggle.wasPressed()) {
+                org.defaultmod.client.ui.DefaultHud.toggleEdit();
+            }
+            if (org.defaultmod.client.ui.DefaultHud.isEditMode()) {
+                while (editUp.wasPressed()) org.defaultmod.client.ui.DefaultHud.editNext(-1);
+                while (editDown.wasPressed()) org.defaultmod.client.ui.DefaultHud.editNext(1);
+                while (editLeft.wasPressed()) org.defaultmod.client.ui.DefaultHud.editAdjust(-1);
+                while (editRight.wasPressed()) org.defaultmod.client.ui.DefaultHud.editAdjust(1);
             }
         });
     }

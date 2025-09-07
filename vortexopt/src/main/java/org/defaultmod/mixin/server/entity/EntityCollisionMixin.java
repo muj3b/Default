@@ -17,11 +17,17 @@ public abstract class EntityCollisionMixin {
         Entity self = (Entity) (Object) this;
         // Skip item-item collisions and armor stand-armor stand to reduce pair checks
         if ((self instanceof ItemEntity && other instanceof ItemEntity) ||
-            (self instanceof ArmorStandEntity && other instanceof ArmorStandEntity)) {
+            (self instanceof ArmorStandEntity && other instanceof ArmorStandEntity) ||
+            (self instanceof net.minecraft.entity.ExperienceOrbEntity && other instanceof net.minecraft.entity.ExperienceOrbEntity)) {
+            cir.setReturnValue(false);
+            return;
+        }
+        // Skip projectile vs item collisions early as they don't meaningfully interact
+        if ((self instanceof net.minecraft.entity.projectile.ProjectileEntity && other instanceof ItemEntity) ||
+            (other instanceof net.minecraft.entity.projectile.ProjectileEntity && self instanceof ItemEntity)) {
             cir.setReturnValue(false);
             return;
         }
         // Boats and shulkers remain hard colliders, keep vanilla for others
     }
 }
-
